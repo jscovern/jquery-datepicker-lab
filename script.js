@@ -4,6 +4,7 @@ var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
 var curr_date = today.getDate();
 var curr_month = today.getMonth();
 var curr_year = today.getFullYear();
+var inputValue="";
 
 $("#todayDate").html(m_names[curr_month] + ". " + curr_date + ", " + curr_year);
 $("#datepicker").datepicker();
@@ -13,9 +14,26 @@ function daysLeft() {
     var a = $( "#datepicker" ).datepicker('getDate').getTime();
     var b = today.getTime();
     var c = 24*60*60*1000;
-    var diffDays = Math.round((a - b)/c);
+    var diffDays = Math.floor(a/c)-Math.floor(b/c);
+    inputValue = $(".endDate").val();
 
-    resultString = ("<p>You have " + diffDays + " days left!");
+    if(inputValue!=="" && diffDays<0) {
+    	resultString = ("<p>You have chosen a day in the past.  It is "+diffDays+" days ago</p>");
+    } else if (inputValue !== "" && diffDays===1) {
+    	resultString = ("<p>You have selected tomorrow! It's tomorrow!</p>")
+    } else if (inputValue!=="" && diffDays>0) {
+	    resultString = ("<p>You have " + diffDays + " days left!");
+	} else if (inputValue==="" && diffDays<0) {
+		resultString = ("<p>You haven't put in an input, and, selected a day in the past.  It is "+diffDays+" days ago</p>");
+	} else if (inputValue==="" && diffDays===1) {
+		resultString = ("<p>You have selected tomorrow, but haven't given an input.  It's, tomorrow....</p>");
+	} else if (inputValue==="" && diffDays>0) {
+		resultString = ("<p>You have not put in an input, but, have "+diffDays+" days left!</p>");
+	} else if (diffDays===0) {
+		resultString = ("<p>You chose today.  It's...today.</p>");
+	} else {
+		resultString = ("<p>You chose a different scenario.  It's a difference of "+diffDays+" days");
+	}
 }
 
 $("#datepicker").on("change", function(){
