@@ -11,7 +11,11 @@ $("#datepicker").datepicker();
 function daysLeft() {
 	var a = $( "#datepicker" ).datepicker('getDate').getTime();
 	// solutions for 9, 10, 11 and 12 go here:
-
+	var b = today.getTime();
+	var c = 24 * 60 * 60 * 1000;
+	var difference = a - b;
+	var d = Math.ceil(difference / c);
+	console.log("the difference in days is "+d);
 	// var b = _____
 	// var c = _____
 	// var d = _____
